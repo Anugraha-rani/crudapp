@@ -3,6 +3,12 @@ let users=[]
 let form=document.getElementById('userform')
 let tablebody=document.getElementById('tablebody')
 let editIndexInput=document.getElementById('editIndex')
+  
+
+if(sessionStorage.getItem("users")){
+    users=JSON.parse(sessionStorage.getItem("users"))
+    displayContent()
+}
 
 
 // add entry to users
@@ -16,14 +22,15 @@ users.push({name,email})
        users[editIndexInput.value]={name,email}
         editIndexInput.value=""
     }
-
+    
     
     form.reset()
+    sessionStorage.setItem("users",JSON.stringify(users))
     displayContent()
 })
 
 // add contents to tablebody
-let displayContent=()=>{
+function displayContent(){
     tablebody.innerHTML=""
     users.forEach((user,index)=>{
         tablebody.innerHTML+=`
@@ -54,6 +61,7 @@ let editUser=(index)=>{
 let deleteUser=(index)=>{
     if(confirm('Are you sure you want to delete the data?')){
         users.splice(index,1)
+        sessionStorage.setItem("users",JSON.stringify(users))
         displayContent()
     }
 }
